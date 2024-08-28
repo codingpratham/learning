@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" placeholder="todo" id="a">
+    <br>
+    <button onclick="add()">click</button>
+    <div class="answer"></div>
+</body>
+<script>
+    async function add(){
+        const work = document.getElementById("a").value;
+
+        const response = await fetch("http://localhost:3000/todo?work=" + encodeURIComponent(work));
+        const ans = await response.text();
+        document.getElementsByClassName("answer")[0].innerHTML = ans;
+    }
+</script>
+</html>

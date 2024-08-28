@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do-App</title>
+</head>
+<body>
+    <input type="text" placeholder="title" id="title"><br>
+    <input type="text" placeholder="description" id="description"><br>
+    <button type="button" onclick="todo()">Submit</button>
+    <div id="result"></div>
+</body>
+<script>
+    async function todo() {
+        const title = document.getElementById("title").value;
+        const description = document.getElementById("description").value;
+
+        if (!title || !description) {
+            alert("Please provide both title and description.");
+            return;
+        }
+
+        const response = await fetch("http://localhost:3000/todo", {
+            body: JSON.stringify({ title, description })
+        });
+
+        const result = await response.json();
+        
+        if (response.status === 200) {
+            const add_title = document.createElement('div');
+            const add_dis = document.createElement('div');
+            const add_btn = document.createElement('button');
+
+            add_title.innerHTML = result.title;
+            add_dis.innerHTML = result.description;
+            add_btn.innerHTML = "Mark as done";
+
+            add_btn.addEventListener('click', function () {
+                add_btn.innerHTML = "Done";
+            });
+
+            const container = document.getElementById('result');
+            container.appendChild(add_title);
+            container.appendChild(add_dis);
+            container.appendChild(add_btn);
+        } else {
+            alert(result.msg);
+        }
+    }
+</script>
+</html>
