@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Card from './Component/Card'
 
 const App = () => {
+
+  useEffect(()=>{
+    alert('hii')
+  },[])
   return (
     <div>
       <Card>
