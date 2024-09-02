@@ -1,15 +1,21 @@
 import React from 'react'
+import { useEffect } from 'react'
 import { useState } from 'react'
 
 const App = () => {
   const [counter,setCounter]=useState(0)
   const [input,setInput]=useState(0)
 
-  let count=0
+  useEffect(()=>{
 
-  for(let i=0;i<=input;i++){
-    count+=i
-  }
+    let count=0
+  
+    for(let i=0;i<=input;i++){
+      count+=i
+    }
+
+    setInput(count)
+  },[input])
 
   return (
     <div>
@@ -17,7 +23,7 @@ const App = () => {
       <input type="text"value={input}
       onChange={(e)=>{setInput(e.target.value)}} />
 
-      <h1>sum from 1 to {input} is {count}</h1>
+      <h1>sum from 1 to {input} is {setInput}</h1>
 
       <button onClick={()=>{
         setCounter(counter+1)
