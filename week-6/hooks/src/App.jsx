@@ -1,33 +1,47 @@
-import React from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
+import { useMemo } from 'react';
+import { useEffect, useState ,useCallback} from 'react'
 
-const App = () => {
-  const [counter,setCounter]=useState(0)
-  const [input,setInput]=useState(0)
+function App() {
+  const [exchange1Data, setExchange1Data] = useState({});
+  const [exchange2Data, setExchange2Data] = useState({});
+  const [bankData, setBankData] = useState({});
 
-  useEffect(()=>{
-
-    let count=0
+  console.log("hii");
   
-    for(let i=0;i<=input;i++){
-      count+=i
-    }
 
-    setInput(count)
-  },[input])
+  useEffect(() => {
+    // Some operation to get the data
+    setExchange1Data({
+      returns: 100
+    });
+  }, [])
+
+  useEffect(() => {
+    // Some operation to get the data
+    setExchange2Data({
+      returns: 100
+    });
+  }, [])
+
+  useEffect(() => {
+    // Some operation to get the data
+    setTimeout(() => {
+      setBankData({
+        income: 100
+      });
+    },1000)
+  }, [])
+
+  const cryptoReturns = useCallback(()=>{
+   return exchange1Data.returns + exchange2Data.returns;
+  },[exchange1Data,exchange2Data]) 
+  
 
   return (
     <div>
-
-      <input type="text"value={input}
-      onChange={(e)=>{setInput(e.target.value)}} />
-
-      <h1>sum from 1 to {input} is {setInput}</h1>
-
-      <button onClick={()=>{
-        setCounter(counter+1)
-      }}>Counter({counter})</button>
+        <h1>Crypto Returns: {cryptoReturns()}</h1>
+        <h1>Bank Income: {bankData.income}</h1>
+  
     </div>
   )
 }
