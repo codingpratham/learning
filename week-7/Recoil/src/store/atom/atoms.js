@@ -1,33 +1,23 @@
-import { atom, selector } from 'recoil';
+// import { atomFamily } from "recoil";
+// import { TODOS } from "../../TODOS";
 
-export const networkAtom = atom({
-  key: 'networkAtom',
-  default: 12,
-});
+// export const todo=atomFamily({
+//     key:"todo",
+//     default:id=>{
+//         return TODOS.find(x=>x.id==id)
+//     }
+// })
 
-export const jobsAtom = atom({
-  key: 'jobsAtom',
-  default: 0,
-});
+import { atomFamily, selectorFamily } from "recoil";
+import axios from "axios";
 
-export const messagingAtom = atom({
-  key: 'messagingAtom',
-  default: 2,
-});
-
-export const notificationAtom = atom({
-  key: 'notificationAtom',
-  default: 102,
-});
-
-export const totalcountSelector = selector({
-  key: 'totalcountSelector',
-  get: ({ get }) => {
-    const networkCount = get(networkAtom);
-    const jobCount = get(jobsAtom);
-    const messagingCount = get(messagingAtom);
-    const notificationCount = get(notificationAtom);
-
-    return networkCount + jobCount + messagingCount + notificationCount;
-  },
+export const todo = atomFamily({
+  key: 'todo',
+  default: selectorFamily({
+    key: "todoSelectorFamily",
+    get: (id) => async ({get}) => {
+      const res = await axios.get(`https://sum-server.100xdevs.com/todo?id=${id}`);
+      return res.data.todo;
+    },
+  })
 });

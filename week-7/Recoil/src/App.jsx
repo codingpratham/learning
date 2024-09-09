@@ -1,12 +1,12 @@
 import React from 'react'
 import { RecoilRoot } from 'recoil'
-import MainApp from './component/MainApp'
+import Todo from './component/Todo'
 
 const App = () => {
   return (
     <div>
       <RecoilRoot>
-        <MainApp/>
+        <Todo id={1}/>
       </RecoilRoot>
     </div>
   )
