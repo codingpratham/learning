@@ -14,15 +14,23 @@
 // sum(x,y)
 // console.log(sum(x,y));
 
-function ageChecker(age:number) :boolean{
-    if(age<=18){
-        return true
-    }
-    else{
-        return false
-    }
+// function ageChecker(age:number) :boolean{
+//     if(age<=18){
+//         return true
+//     }
+//     else{
+//         return false
+//     }
+// }
+
+// let userAge:number = 25;
+
+// console.log(ageChecker(userAge));
+
+function delayed(fn : ()=> void) :void{
+    setTimeout(fn ,1000)
 }
 
-let userAge:number = 25;
-
-console.log(ageChecker(userAge));
+delayed(()=>{
+    console.log('Hello from delayed function')
+})
