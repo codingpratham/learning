@@ -27,10 +27,34 @@
 
 // console.log(ageChecker(userAge));
 
-function delayed(fn : ()=> void) :void{
-    setTimeout(fn ,1000)
+// function delayed(fn : ()=> void) :void{
+//     setTimeout(fn ,1000)
+// }
+
+// delayed(()=>{
+//     console.log('Hello from delayed function')
+// })
+
+interface User{
+    firstName:string;
+    age:number;
+    
 }
 
-delayed(()=>{
-    console.log('Hello from delayed function')
+function isLegal(user:User)  {
+    console.log(user.firstName);
+    if(user.age>18){
+        console.log("true");
+        
+    }
+    else{
+        console.log("false");
+        
+    }
+}
+
+isLegal(
+    {
+    firstName:"pratham",
+    age:19
 })
