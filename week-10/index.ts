@@ -66,3 +66,5 @@ export async function getUserData(email: string): Promise<any | null> {
     await client.end();
   }
 }
+
+getUserData("fwefef@gmail.com")
