@@ -19,66 +19,74 @@ const zod_1 = __importDefault(require("zod"));
 const client_1 = require("@prisma/client");
 const SECRET_KEY = 'my_secret_key';
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: 'http://localhost:5173', // Update with your frontend URL
+    credentials: true
+}));
 app.use(express_1.default.json());
 const prisma = new client_1.PrismaClient();
 const UserSchema = zod_1.default.object({
     email: zod_1.default.string().email(),
-    password: zod_1.default.string().min(4).max(8)
+    password: zod_1.default.string().min(4).max(8),
 });
+// Register route
 app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const parsed = UserSchema.safeParse(req.body);
     if (!parsed.success) {
-        res.status(411).json({ msg: 'Invalid' });
+        res.status(400).json({ msg: 'Invalid data' });
+        return; // Exit the function if validation fails
     }
+    const { email, password } = parsed.data;
     try {
         const existingUser = yield prisma.user.findUnique({
-            where: { email: req.body.email }
+            where: { email },
         });
         if (existingUser) {
-            res.status(411).json({ msg: 'Email already exists' });
+            res.status(409).json({ msg: 'Email already exists' });
+            return; // Exit if user already exists
         }
         const newUser = yield prisma.user.create({
             data: {
-                email: req.body.email,
-                password: req.body.password
-            }
+                email,
+                password, // Note: Consider using some form of hashing in a real app
+            },
         });
         const token = jsonwebtoken_1.default.sign({ id: newUser.id }, SECRET_KEY);
-        res.json({ token });
+        res.status(201).json({ token, newUser });
         console.log("Successfully added user");
     }
     catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).json({ error: 'Internal server error' });
     }
 }));
 const AuthenticatedUserSchema = zod_1.default.object({
     email: zod_1.default.string().email(),
-    password: zod_1.default.string().min(4).max(8)
+    password: zod_1.default.string().min(4).max(8),
 });
+// Login route
 app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const parsed = AuthenticatedUserSchema.safeParse(req.body);
     if (!parsed.success) {
-        res.status(411).json({ msg: 'Invalid' });
+        res.status(400).json({ msg: 'Invalid data' });
+        return; // Exit the function if validation fails
     }
+    const { email, password } = parsed.data;
     try {
         const existingUser = yield prisma.user.findUnique({
-            where: {
-                email: req.body.email,
-                password: req.body.password
-            }
+            where: { email },
         });
-        if (existingUser) {
+        if (existingUser && existingUser.password === password) {
             const token = jsonwebtoken_1.default.sign({ id: existingUser.id }, SECRET_KEY);
-            res.json({ msg: "loggen in" });
+            res.json({ msg: "Logged in", token });
         }
         else {
             res.status(401).json({ msg: 'Invalid credentials' });
         }
     }
     catch (error) {
-        console.log(error);
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
     }
 }));
 app.listen(3000, () => {
