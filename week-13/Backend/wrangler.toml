@@ -3,6 +3,10 @@ main = "src/index.ts"
 compatibility_date = "2024-11-18"
 
 # compatibility_flags = [ "nodejs_compat" ]
+[vars]
+JWT_SECRET_KEY="bhagjapasswordbhi dekhega"
+
+DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiZWVhOTY0ODUtOGZjMy00YTZlLWExMzMtN2YzOGZiNjdlYjgxIiwidGVuYW50X2lkIjoiZmZjYWJmOWFmYTkxNWIzMjU4Nzc4MTA1Mjk2NTE4NWE2ZGU2ZjMxNDk3Zjg0ODkzMGZmZGVkOTlmNjMwNjRhOCIsImludGVybmFsX3NlY3JldCI6IjVmMThmNzhkLTUwNzQtNDE3NS1hOWJjLTA2ZTFjYTMyYTA4ZCJ9.UiYZ2HBMrDgq_ePilFQ2FRMs-4pQdQIRtnWMq4lcnJg"
 
 # [vars]
 # MY_VAR = "my-variable"
