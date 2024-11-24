@@ -1,20 +1,12 @@
 {
-  "name":  "@100xdevs/common-app",
+  "name": "@pratham_koranne/medium-blog",
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "description": "",
+	"main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "typescript": "^5.7.2"
-  },
-  "description": "",
-  "zod": "^3.23.8",
-  "publishConfig": {
-    "access": "public"
-  }
+  "license": "ISC"
 }
-

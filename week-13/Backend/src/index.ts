@@ -2,6 +2,8 @@ import { Hono } from 'hono';
 import { PrismaClient } from '@prisma/client/edge';
 import { withAccelerate } from '@prisma/extension-accelerate';
 import { sign, verify } from 'hono/jwt';
+import {userSigninSchema,userSignupSchema,blogCreateSchema,blogUpdateSchema} from '@pratham_koranne/medium-blog'
+import { cors } from 'hono/cors';
 
 const app = new Hono<{
   Bindings: {
@@ -12,6 +14,8 @@ const app = new Hono<{
     userId?: string;
   };
 }>();
+
+app.use(cors())
 
 // Middleware for JWT verification
 app.use('/api/v1/blog/*', async (c, next) => {
