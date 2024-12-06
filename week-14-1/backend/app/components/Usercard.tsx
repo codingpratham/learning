@@ -3,15 +3,15 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 interface User{
-    username:string
-    
+    name:string
+    email:string
 }
 const Usercard = () => {
     const [userData,setUserData]=useState<User>()
     const [loading,setLoading]=useState(true)
 
     useEffect(()=>{
-        axios.get(`http://localhost:3000/api/user`).then(res=>{
+        axios.get(`https://week-13-offline.kirattechnologies.workers.dev/api/v1/user/details`).then(res=>{
             setUserData(res.data)
             setLoading(false)
         })
@@ -26,9 +26,9 @@ const Usercard = () => {
             <div className="flex justify-center">
                 <div className="border p-8 rounded">
                     <div>
-                        Name:{userData?.username}
+                        Name:{userData?.name}
                     </div>
-                    
+                    {userData?.email }
                 </div>
             </div>
         </div>

@@ -1,12 +1,16 @@
+'use server'
 import prisma from "../db";
-
-
 export async function signUp(username: string, password: string){
-    return await prisma.user.create({
+   const users= await prisma.user.create({
         data:{
-
-            username,
-            password
+            username:username,
+            password:password
         }
     })
+    console.log(users.id)
+}
+
+export async function getUser(){
+    const user=await prisma.user.findMany()
+    return user
 }
