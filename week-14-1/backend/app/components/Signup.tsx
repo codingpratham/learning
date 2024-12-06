@@ -1,25 +1,14 @@
 'use client'
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { ChangeEventHandler, useState } from "react";
+import { signUp } from "../actions/user";
+
 
 const Signup = () => {
     const [username,setUsername]=useState("")
     const [password,setPassword]=useState("")
     const router=useRouter()
-    const postData=async ()=>{
-        try {
-            const response=await axios.post('http://localhost:3000/api/user',{
-                username,
-                password
-            })
-            console.log(response.data);
-            router.push('/')
-        } catch (error) {
-            console.log(error);
-            
-        }
-    }
+   
     return (
         <div className="h-screen flex justify-center flex-col">
         <div className="flex justify-center">
@@ -37,8 +26,15 @@ const Signup = () => {
                         <LabelledInput onChange={(e) => {
                             setPassword(e.target.value)
                         }} label="Password" type={"password"} placeholder="123456" />
-                        <button onClick={postData}type="button" className="mt-8 w-full text-white bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+                        <button onClick={async()=>{
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            signUp(username,password).then((res:any)=>{
+                                localStorage.setItem('token',res)
+                                router.push('/')
+                            })
+                        }}type="button" className="mt-8 w-full text-white bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
                         >Sign in</button>
+
                     </div>
                 </div>
             </a>
