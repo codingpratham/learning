@@ -8,7 +8,7 @@ const page = () => {
                 Click Me
             </Button>
             <Admin/>
-            1
+            <Admin/>
         </div>
     );
 }
