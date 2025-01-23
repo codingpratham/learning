@@ -1,7 +1,8 @@
-import {PrismaClient} from "@repo/db/client"
+
+import prisma from "@repo/db/client"
 import { NextResponse } from "next/server"
 
-const client= new PrismaClient()
+const client= new prisma
 
 export const GET=async()=>{
     await client.user.create({
