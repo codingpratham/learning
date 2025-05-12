@@ -1,27 +1,24 @@
-import WebSocket, { WebSocketServer } from 'ws';
-import http from 'http';
+import express from "express";
+import { WebSocketServer } from "ws";
 
-const server = http.createServer(function(request: any, response: any) {
-    console.log((new Date()) + ' Received request for ' + request.url);
-    response.end("hi there");
-});
+const app = express()
 
-const wss = new WebSocketServer({ server });
+const server = app.listen(3000,()=>{
+  console.log("port is listining on 8080");
+})
 
-wss.on('connection', function connection(ws) {
-  ws.on('error', console.error);
+const wss = new WebSocketServer({server:server})
 
-  ws.on('message', function message(data, isBinary) {
-    wss.clients.forEach(function each(client) {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(data, { binary: isBinary });
+wss.on('connection',function connection(ws){
+  ws.on('error',console.error)
+
+  ws.on('message',function message(data,isBinary){
+    wss.clients.forEach(function each(client){
+      if(client.readyState === WebSocket.OPEN){
+        client.send(data,{binary:isBinary})
       }
-    });
-  });
+    })
+  })
 
-  ws.send('Hello! Message From Server!!');
-});
-
-server.listen(8080, function() {
-    console.log((new Date()) + ' Server is listening on port 8080');
-});
+  ws.send('Hello Message from server')
+})
