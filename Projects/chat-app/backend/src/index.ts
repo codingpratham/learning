@@ -6,22 +6,43 @@ const httpServer= app.listen(8080,()=>{
     console.log("8080");
 })
 
+interface User{
+    socket : WebSocket
+    room:String
+}
+
 let userCount = 0 ;
-let allSocket : WebSocket[]= []
+let allSocket : User[]= []
 
 const wss = new WebSocketServer({server : httpServer})
 
 wss.on('connection',(socket)=>{
-    allSocket.push(socket)
 
-    userCount=userCount+1
-    console.log("user connection" , userCount);
+   socket.on('message',(message)=>{
+    //@ts-ignore
+     const parsedMessage = JSON.parse(message)
 
-    socket.on('message',(message)=>{
-        for(let i=0 ; i<allSocket.length;i++){
-            const s=allSocket[i]
-            s.send(message.toString())
+     if(parsedMessage.type === "join"){
+        allSocket.push({
+            socket,
+            room:parsedMessage.payload.roomId
+        })
+     }
+
+     if(parsedMessage.type === "chat"){
+        let currentUserRoom= null
+        for(let i=0 ; i<allSocket.length ; i++){
+            if(allSocket[i].socket==socket){
+                currentUserRoom=allSocket[i].room
+            }
         }
-    })
 
+        for(let i=0 ; i<allSocket.length ; i++){
+            if(allSocket[i].room == currentUserRoom){
+                allSocket[i].socket.send(parsedMessage.payload.message)
+            }
+        }
+
+     }
+   })
 })
