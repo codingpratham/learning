@@ -19,6 +19,10 @@ const App = () => {
     }
 
     setSocket(socket)
+
+    return ()=>{
+      socket.close()
+    }
   },[])
   return (
     <>
