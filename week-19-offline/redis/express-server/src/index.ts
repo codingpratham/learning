@@ -9,10 +9,8 @@ client.on('error',(err)=>{
     console.log('Redis Client Error', err);
 })
 
-app.post('submit',async(req,res)=>{
-    const problemId = req.body.problemId;
-    const code = req.body.code;
-    const language = req.body.language;
+app.post('/submit',async(req,res)=>{
+    const {code,language,problemId} = req.body;
 
     try {
         await client.lPush("problems",JSON.stringify({
