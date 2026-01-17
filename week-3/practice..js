@@ -6,7 +6,7 @@ const jwtpass = '123456'
 
 const mongoose = require('mongoose')
 
-mongoose.connect("mongodb+srv://bro123:pratham@pratham.j9fifsz.mongodb.net/")
+mongoose.connect("")
 
 const app = express()
 
