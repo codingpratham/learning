@@ -5,7 +5,7 @@ const jwt=require('jsonwebtoken')
 const jwtPassword='123456'
 const app=express()
 
-mongoose.connect("mongodb+srv://bro123:YJxfZod8xUTUx55h@cluster0.no27eig.mongodb.net/userappnew")
+mongoose.connect("")
 
 app.use(express.json())
 
